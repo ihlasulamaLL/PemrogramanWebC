@@ -1,76 +1,69 @@
 import { useState } from "react";
-
-const links = [
-  { label: "Beranda", href: "#beranda" },
-  { label: "Menu", href: "#menu" },
-  { label: "Kantin", href: "#kantin" },
-  { label: "Tentang", href: "#tentang" },
-  { label: "Kontak", href: "#kontak" },
-];
-
-function Logo() {
-  return (
-    <a
-      href="#beranda"
-      className="flex items-center gap-2.5 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-indigo-600"
-    >
-      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-950 text-amber-400">
-        {/* Ikon mangkuk dengan uap */}
-        <svg
-          viewBox="0 0 24 24"
-          className="h-5 w-5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M3 12h18a9 9 0 0 1-18 0Z" />
-          <path d="M8 8c0-1.5 1-1.5 1-3" />
-          <path d="M12 8c0-1.5 1-1.5 1-3" />
-          <path d="M16 8c0-1.5 1-1.5 1-3" />
-        </svg>
-      </span>
-      <span className="text-lg font-bold tracking-tight text-indigo-950">
-        Rasa Kampus
-      </span>
-    </a>
-  );
-}
+import { Link, useLocation } from "react-router-dom";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+
+  const links = [
+    { label: "Beranda", href: "/#beranda" },
+    { label: "Menu Rekomendasi", href: "/#menu" },
+    { label: "Eksplorasi Tempat", href: "/#explore" },
+  ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/85 backdrop-blur">
-      <nav
-        className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8"
-        aria-label="Navigasi utama"
-      >
-        <Logo />
+    <header className="sticky top-0 z-50 w-full bg-[#D9D9D9] border-b border-stone-300 shadow-xs transition-colors">
+      <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-4 sm:px-8">
+        {/* Brand & Logo sesuai Figma Header */}
+        <Link to="/" className="flex items-center gap-4 group">
+          {/* Logo Box (80x80 style Figma) */}
+          <div className="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-[18px] bg-[#A1A1A1] text-stone-900 shadow-inner group-hover:bg-stone-600 group-hover:text-amber-300 transition-all">
+            <svg
+              viewBox="0 0 24 24"
+              className="h-8 w-8"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M3 12h18a9 9 0 0 1-18 0Z" />
+              <path d="M8 8c0-1.5 1-1.5 1-3" />
+              <path d="M12 8c0-1.5 1-1.5 1-3" />
+              <path d="M16 8c0-1.5 1-1.5 1-3" />
+            </svg>
+          </div>
 
-        {/* Menu desktop */}
-        <ul className="hidden items-center gap-1 md:flex">
+          <div className="flex flex-col">
+            <span className="text-2xl sm:text-3xl font-extrabold tracking-tight text-stone-900 group-hover:text-amber-900 transition-colors">
+              Rasa Kampus
+            </span>
+            <span className="text-xs font-medium text-stone-600 hidden sm:block">
+              Fakultas Teknik Unhas Gowa
+            </span>
+          </div>
+        </Link>
+
+        {/* Desktop Menu */}
+        <nav className="hidden md:flex items-center gap-3">
           {links.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-amber-100 hover:text-indigo-950 focus-visible:outline-2 focus-visible:outline-indigo-600"
-              >
-                {link.label}
-              </a>
-            </li>
+            <a
+              key={link.href}
+              href={link.href}
+              className="rounded-full px-5 py-2 text-sm sm:text-base font-semibold text-stone-800 transition-colors hover:bg-[#A1A1A1]/40 hover:text-stone-950"
+            >
+              {link.label}
+            </a>
           ))}
-        </ul>
+        </nav>
 
-        {/* Tombol hamburger (mobile) */}
+        {/* Mobile Hamburger */}
         <button
           type="button"
           onClick={() => setOpen((prev) => !prev)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-indigo-950 hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-indigo-600 md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#A1A1A1]/50 text-stone-900 hover:bg-[#A1A1A1] focus:outline-none md:hidden"
           aria-expanded={open}
-          aria-controls="menu-mobile"
           aria-label={open ? "Tutup menu" : "Buka menu"}
         >
           <svg
@@ -80,35 +73,32 @@ export default function Navbar() {
             stroke="currentColor"
             strokeWidth="2"
             strokeLinecap="round"
-            aria-hidden="true"
           >
             {open ? (
-              <path d="M6 6l12 12M18 6L6 18" />
+              <path d="M6 18L18 6M6 6l12 12" />
             ) : (
-              <path d="M4 7h16M4 12h16M4 17h16" />
+              <path d="M4 6h16M4 12h16M4 18h16" />
             )}
           </svg>
         </button>
-      </nav>
+      </div>
 
-      {/* Menu mobile */}
+      {/* Mobile Drawer */}
       {open && (
-        <ul
-          id="menu-mobile"
-          className="border-t border-slate-200 bg-white px-4 py-3 sm:px-6 md:hidden"
-        >
-          {links.map((link) => (
-            <li key={link.href}>
+        <div className="border-t border-stone-300 bg-[#D9D9D9] px-6 py-4 md:hidden">
+          <nav className="flex flex-col gap-2">
+            {links.map((link) => (
               <a
+                key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="block rounded-lg px-3 py-3 text-base font-medium text-slate-700 hover:bg-amber-100 hover:text-indigo-950"
+                className="rounded-xl px-4 py-3 text-base font-semibold text-stone-900 hover:bg-[#A1A1A1]/40"
               >
                 {link.label}
               </a>
-            </li>
-          ))}
-        </ul>
+            ))}
+          </nav>
+        </div>
       )}
     </header>
   );

@@ -1,5 +1,5 @@
-const filters = [
-  { label: "Semua", value: "semua" },
+const categories = [
+  { label: "Semua", value: "Semua" },
   { label: "Masakan Rumahan", value: "Masakan Rumahan" },
   { label: "Ayam Geprek", value: "Ayam Geprek" },
   { label: "Mie dan Bakso", value: "Mie dan Bakso" },
@@ -7,43 +7,29 @@ const filters = [
   { label: "Camilan", value: "Camilan" },
 ];
 
-export default function FilterBar({ selected, onChange }) {
-  const toggle = (value) => {
-    if (value === "semua") {
-      onChange([]);
-      return;
-    }
-    if (selected.includes(value)) {
-      onChange(selected.filter((v) => v !== value));
-    } else {
-      onChange([...selected, value]);
-    }
-  };
-
+export default function FilterBar({ activeCategory, onSelectCategory }) {
   return (
-    <div className="flex flex-wrap gap-2">
-      {filters.map((f) => {
-        const isActive =
-          f.value === "semua"
-            ? selected.length === 0
-            : selected.includes(f.value);
+    <nav className="flex items-center justify-center" aria-label="Kategori Kuliner">
+      <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 max-w-4xl px-2">
+        {categories.map((cat) => {
+          const isActive = activeCategory === cat.value;
 
-        return (
-          <button
-            key={f.value}
-            type="button"
-            onClick={() => toggle(f.value)}
-            className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
-              isActive
-                ? "border-indigo-950 bg-indigo-950 text-amber-400"
-                : "border-stone-300 bg-white text-stone-700 hover:border-indigo-950 hover:text-indigo-950"
-            }`}
-          >
-            {f.label}
-          </button>
-        );
-      })}
-    </div>
+          return (
+            <button
+              key={cat.value}
+              type="button"
+              onClick={() => onSelectCategory(cat.value)}
+              className={`min-w-[130px] sm:min-w-[150px] h-[42px] px-5 text-sm sm:text-base font-semibold rounded-full border-2 transition-all duration-200 cursor-pointer ${
+                isActive
+                  ? "border-black bg-black text-white shadow-sm scale-105"
+                  : "border-black bg-white text-black hover:bg-stone-100 hover:scale-102"
+              }`}
+            >
+              {cat.label}
+            </button>
+          );
+        })}
+      </div>
+    </nav>
   );
 }
-

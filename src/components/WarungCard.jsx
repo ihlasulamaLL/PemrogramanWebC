@@ -1,65 +1,58 @@
 import { Link } from "react-router-dom";
+import RatingStars from "./RatingStars";
+
 export default function WarungCard({ warung }) {
-  const formatRupiah = (harga) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      maximumFractionDigits: 0,
-    }).format(harga);
-  };
-
   return (
-    <article className="group overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-
-      {/* Gambar Warung */}
-      <div className="relative h-48 overflow-hidden">
+    <article className="group flex flex-col w-full max-w-[320px] mx-auto min-h-[340px] rounded-[18px] bg-[#D9D9D9] p-4 text-stone-900 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+      {/* Gambar Tempat */}
+      <div className="relative w-full h-[175px] overflow-hidden rounded-[15px] bg-[#A1A1A1]">
         <img
           src={warung.gambar}
           alt={warung.nama}
           loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-
-        {/* Rating */}
-        <div className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-white/95 px-3 py-1.5 text-sm font-semibold text-gray-800 shadow-sm">
-          <span className="text-yellow-500">★</span>
-          <span>{warung.rating.toFixed(1)}</span>
-        </div>
+        {warung.kategori && (
+          <span className="absolute top-2.5 left-2.5 rounded-full bg-white/90 backdrop-blur-xs px-2.5 py-0.5 text-[11px] font-semibold text-stone-800 shadow-xs">
+            {warung.kategori}
+          </span>
+        )}
+        {warung.jarak && (
+          <span className="absolute bottom-2.5 right-2.5 rounded-full bg-stone-900/80 backdrop-blur-xs px-2.5 py-0.5 text-[11px] font-medium text-amber-300">
+            {warung.jarak}
+          </span>
+        )}
       </div>
 
-      {/* Informasi Warung */}
-      <div className="p-5">
-
-        {/* Kategori */}
-        <span className="inline-block rounded-full bg-orange-50 px-3 py-1 text-xs font-medium text-orange-600">
-          {warung.kategori}
-        </span>
-
-        {/* Nama Warung */}
-        <h3 className="mt-3 text-lg font-bold text-gray-900 transition-colors group-hover:text-orange-600">
+      {/* Konten Tempat */}
+      <div className="flex flex-1 flex-col pt-3 pb-1">
+        <h3 className="text-lg font-bold leading-snug text-stone-900 line-clamp-1 group-hover:text-amber-800 transition-colors">
           {warung.nama}
         </h3>
 
-        {/* Harga */}
-        <div className="mt-4 flex items-center justify-between border-t border-gray-100 pt-4">
+        <p className="mt-1 text-xs text-stone-600 line-clamp-2 leading-relaxed">
+          {warung.caption}
+        </p>
 
-          <div>
-            <p className="text-xs text-gray-400">
-              Harga mulai
-            </p>
+        <div className="mt-2.5">
+          <RatingStars rating={warung.rating} size="sm" />
+        </div>
 
-            <p className="text-lg font-bold text-orange-600">
-              {formatRupiah(warung.harga)}
-            </p>
-          </div>
+        <div className="mt-auto pt-2.5 flex items-center justify-between text-xs text-stone-600 border-t border-stone-300/60">
+          <p className="truncate flex items-center gap-1 max-w-[170px]" title={warung.alamat}>
+            <svg className="w-3.5 h-3.5 shrink-0 text-stone-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span className="truncate">{warung.alamat}</span>
+          </p>
 
           <Link
-         to={`/warung/${warung.id}`}
-            className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-orange-600"
-            >   
-            Lihat Detail
-            </Link>
-
+            to={`/warung/${warung.id}`}
+            className="text-xs font-bold text-stone-900 hover:text-amber-800 underline underline-offset-2"
+          >
+            Detail &rarr;
+          </Link>
         </div>
       </div>
     </article>
